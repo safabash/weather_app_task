@@ -10,38 +10,49 @@ import '../../model/city_model.dart';
 class DashBoardController with ChangeNotifier {
   DashBoardController() {
     getLocation();
-    getCity();
+    // getCity();
   }
   Model? model;
   bool isLoading = false;
-  void getAll() async {
+  // void getAll() async {
+  //   log('start');
+  //   isLoading = true;
+  //   notifyListeners();
+  //   model = await DashBoardRepository.getService();
+  //   log('end');
+  //   isLoading = false;
+  //   notifyListeners();
+  // }
+
+  CityModel? cityModel;
+  final String location = '';
+  static LocationModel? locationModel;
+  Stream<dynamic> getLocation() async* {
     log('start');
     isLoading = true;
     notifyListeners();
-    model = await DashBoardRepository.getService();
-    log('end');
+    locationModel = await DashBoardRepository.getLocation().then((value) {
+      if (value != null) {
+final location = locationModel!.ip;
+    cityModel = await DashBoardRepository.getCity(location).then((value) {
+        if (value != null) {
+          final city = cityModel!.city;
+    model = await DashBoardRepository.getService(city);
     isLoading = false;
     notifyListeners();
+      }});
+      }
+    });
+    
+    
+    log(model.toString());
   }
 
-  final String location = '';
-  static LocationModel? locationModel;
-  void getLocation() async {
-    log('start');
+  // void getCity() async {
+  //   notifyListeners();
+  //   cityModel = await DashBoardRepository.getCity(location);
 
-    notifyListeners();
-    locationModel = await DashBoardRepository.getLocation();
-    final location = locationModel!.ip;
-    log(location.toString());
-    notifyListeners();
-  }
-
-  CityModel? cityModel;
-  void getCity() async {
-    notifyListeners();
-    cityModel = await DashBoardRepository.getCity(location);
-
-    log(cityModel.toString());
-    notifyListeners();
-  }
+  //   log(cityModel.toString());
+  //   notifyListeners();
+  // }
 }

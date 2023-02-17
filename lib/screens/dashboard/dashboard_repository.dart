@@ -8,12 +8,12 @@ import 'package:weather_app/model/weather_model.dart';
 import '../../core/api_base_url.dart';
 
 class DashBoardRepository {
-  static Future<Model?> getService() async {
+  static Future<Model?> getService(String city) async {
     final dio = Dio();
 
     try {
       final Response response = await dio.get(
-        ApiBaseUrl.apiBaseUrl,
+        'http://api.weatherapi.com/v1/current.json?key=c0dbb6f1794640eeabf103014222805&q=${city}&aqi=no',
       );
       if (response.statusCode! >= 200 && response.statusCode! <= 299) {
         log(response.data.toString());
@@ -39,7 +39,6 @@ class DashBoardRepository {
       }
     } catch (e) {
       log(e.toString());
-      // AppException.handleError(e, context);
     }
     return null;
   }

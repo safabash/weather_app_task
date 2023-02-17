@@ -15,9 +15,7 @@ class DashBoard extends StatelessWidget {
     final controller = Provider.of<DashBoardController>(context, listen: false);
     WidgetsBinding.instance.addPostFrameCallback(
       (_) {
-        controller.getAll();
         controller.getLocation();
-        controller.getCity();
       },
     );
     return Scaffold(
@@ -62,30 +60,33 @@ class DashBoard extends StatelessWidget {
               builder: (context, value, child) {
                 return Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      InfoCardWidget(
-                        text: 'Win DR',
-                        controller: controller,
-                        winDr: controller.model!.current.windDir,
-                      ),
-                      InfoCardWidget(
-                        text: 'Humidity',
-                        controller: controller,
-                        winDr: controller.model!.current.humidity.toString(),
-                      ),
-                      InfoCardWidget(
-                        text: 'Pressure',
-                        controller: controller,
-                        winDr: controller.model!.current.pressureMb.toString(),
-                      ),
-                      InfoCardWidget(
-                        text: 'Cloud',
-                        controller: controller,
-                        winDr: controller.model!.current.cloud.toString(),
-                      )
-                    ],
+                  child: Flexible(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        InfoCardWidget(
+                          text: 'Win DR',
+                          controller: controller,
+                          winDr: controller.model!.current.windDir,
+                        ),
+                        InfoCardWidget(
+                          text: 'Humidity',
+                          controller: controller,
+                          winDr: controller.model!.current.humidity.toString(),
+                        ),
+                        InfoCardWidget(
+                          text: 'Pressure',
+                          controller: controller,
+                          winDr:
+                              controller.model!.current.pressureMb.toString(),
+                        ),
+                        InfoCardWidget(
+                          text: 'Cloud',
+                          controller: controller,
+                          winDr: controller.model!.current.cloud.toString(),
+                        )
+                      ],
+                    ),
                   ),
                 );
               },
